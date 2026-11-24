@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openmedialab"
+version = "0.1.0"
+description = "An open-source web workbench for extracting and transforming audio and video."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = [
+    "fastapi>=0.115,<1",
+    "httpx>=0.27,<1",
+    "pydantic>=2.7,<3",
+    "python-multipart>=0.0.20,<1",
+    "uvicorn[standard]>=0.30,<1",
+    "yt-dlp>=2025.1.15",
+]
+
+[project.optional-dependencies]
+ai = [
+    "faster-whisper>=1.1,<2",
+    "demucs>=4.0.1,<5",
+    "librosa>=0.10.2,<1",
+]
+test = ["pytest>=8.0,<9", "httpx>=0.27,<1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["openmedialab*"]
+
+[tool.setuptools.package-data]
+openmedialab = ["static/*"]

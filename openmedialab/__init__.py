@@ -1,0 +1,1 @@
+"""OpenMediaLab web application."""

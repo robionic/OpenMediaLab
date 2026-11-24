@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111827">
+    <title>OpenMediaLab — media extraction workbench</title>
+    <link rel="stylesheet" href="/static/styles.css?v=1">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="OpenMediaLab home">
+          <span class="brand-mark">OM</span>
+          <span>OpenMediaLab</span>
+        </a>
+        <span class="license-tag">Open source · MIT</span>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">YOUR LOCAL MEDIA WORKBENCH</p>
+        <h1>One source.<br><span>Every useful layer.</span></h1>
+        <p class="lede">Extract audio, lyrics, subtitles, beats, and frames. Choose exactly what you need, then preview and download the results.</p>
+      </section>
+
+      <form id="job-form">
+        <section class="panel source-panel">
+          <div class="section-heading">
+            <div><p class="eyebrow">01 / SOURCE</p><h2>Choose your media</h2></div>
+          </div>
+          <div class="source-tabs" role="tablist" aria-label="Media source">
+            <button type="button" class="source-tab active" data-mode="upload" role="tab" aria-selected="true">Upload a file</button>
+            <button type="button" class="source-tab" data-mode="url" role="tab" aria-selected="false">Use a web link</button>
+          </div>
+          <div id="upload-source" class="source-content">
+            <label id="drop-zone" class="drop-zone" for="media-file">
+              <span class="upload-icon" aria-hidden="true">↑</span>
+              <span class="drop-title">Drop a media file here, or <span>browse</span></span>
+              <span class="muted">Audio or video · up to 1 GiB</span>
+              <input id="media-file" name="file" type="file" accept="audio/*,video/*,.mkv,.avi,.mov,.webm,.mp4,.mp3,.wav,.ogg,.flac,.m4a">
+            </label>
+            <p id="file-name" class="file-name" aria-live="polite"></p>
+          </div>
+          <div id="url-source" class="source-content hidden">
+            <label class="field-label" for="media-url">Direct media, YouTube, or Vimeo URL</label>
+            <input id="media-url" type="url" placeholder="https://…" autocomplete="url">
+            <p class="hint">Only public HTTP(S) sources are accepted. Source-site terms still apply.</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div><p class="eyebrow">02 / EXTRACT</p><h2>Build your output</h2></div>
+            <span class="muted small">Select one or more</span>
+          </div>
+          <div class="options-grid">
+            <article class="option-card">
+              <div class="option-title"><label class="check-title"><input id="extract-audio" type="checkbox" checked><span>Audio track</span></label><span class="option-glyph">♫</span></div>
+              <p>Save the soundtrack by itself.</p>
+              <div class="format-row">
+                <label class="format-chip"><input type="checkbox" name="audio-format" value="mp3" checked> MP3</label>
+                <label class="format-chip"><input type="checkbox" name="audio-format" value="ogg"> OGG</label>
+              </div>
+            </article>
+            <article class="option-card">
+              <div class="option-title"><label class="check-title"><input id="transcribe" type="checkbox"><span>Lyrics &amp; transcript</span></label><span class="option-glyph">Aa</span></div>
+              <p>Whisper transcription with timed captions.</p>
+              <div class="format-row static-formats"><span>TXT</span><span>CSV</span><span>SRT</span><span>VTT</span></div>
+            </article>
+            <article class="option-card">
+              <div class="option-title"><label class="check-title"><input id="separate" type="checkbox"><span>Vocals &amp; music</span></label><span class="option-glyph">◒</span></div>
+              <p>Demucs separates vocals from instrumental.</p>
+              <div class="format-row">
+                <label class="format-chip"><input type="checkbox" name="source-format" value="mp3" checked> MP3</label>
+                <label class="format-chip"><input type="checkbox" name="source-format" value="ogg"> OGG</label>
+              </div>
+            </article>
+            <article class="option-card">
+              <div class="option-title"><label class="check-title"><input id="beats" type="checkbox"><span>Beat markers</span></label><span class="option-glyph">⌁</span></div>
+              <p>Estimate BPM and timestamp each beat.</p>
+              <div class="format-row static-formats"><span>CSV</span><span>TXT</span></div>
+            </article>
+            <article class="option-card">
+              <div class="option-title"><label class="check-title"><input id="frames" type="checkbox"><span>Video frames</span></label><span class="option-glyph">▧</span></div>
+              <p>Timestamped JPEGs, bundled for download.</p>
+              <label class="inline-field">Frame every <input id="frame-interval" type="number" value="1" min="0.25" max="60" step="0.25"> seconds</label>
+              <div class="format-row static-formats"><span>ZIP</span><span>CSV index</span></div>
+            </article>
+            <article class="option-card">
+              <div class="option-title"><span class="check-title">Video export</span><span class="option-glyph">▷</span></div>
+              <p>Transcode video into a browser-ready format.</p>
+              <div class="format-row">
+                <label class="format-chip"><input type="checkbox" name="video-format" value="mp4"> MP4</label>
+                <label class="format-chip"><input type="checkbox" name="video-format" value="webm"> WebM</label>
+              </div>
+            </article>
+            <article class="option-card">
+              <div class="option-title"><label class="check-title"><input id="embedded-subs" type="checkbox"><span>Embedded subtitles</span></label><span class="option-glyph">▤</span></div>
+              <p>Extract an existing subtitle track when available.</p>
+              <div class="format-row static-formats"><span>SRT</span><span>VTT</span></div>
+            </article>
+            <article class="option-card model-card">
+              <div class="option-title"><label class="field-label" for="whisper-model">Whisper model</label><span class="option-glyph">AI</span></div>
+              <p>Transcription quality vs. model download size.</p>
+              <select id="whisper-model">
+                <option value="tiny">Tiny · fastest</option>
+                <option value="base">Base</option>
+                <option value="small" selected>Small · balanced</option>
+                <option value="medium">Medium</option>
+                <option value="large-v3">Large · most accurate</option>
+              </select>
+            </article>
+          </div>
+          <p class="notice"><span aria-hidden="true">ⓘ</span> Whisper, Demucs, and beat analysis need optional AI dependencies and may download models on first use. CPU processing can take a while.</p>
+          <button id="submit-job" class="primary-button" type="submit"><span>Start processing</span><span aria-hidden="true">→</span></button>
+          <p id="form-error" class="error-message" role="alert"></p>
+        </section>
+      </form>
+
+      <section id="job-panel" class="panel job-panel hidden" aria-live="polite">
+        <div class="section-heading">
+          <div><p class="eyebrow">03 / RESULTS</p><h2 id="job-title">Processing your media</h2></div>
+          <span id="job-badge" class="status-badge">Queued</span>
+        </div>
+        <p id="job-stage" class="muted"></p>
+        <div id="job-error" class="error-message"></div>
+        <ul id="warnings" class="warning-list"></ul>
+        <div id="source-preview" class="preview-card hidden">
+          <p class="field-label">Source preview</p>
+          <video id="source-video" controls preload="metadata"></video>
+          <audio id="source-audio" controls preload="metadata"></audio>
+        </div>
+        <div id="output-preview" class="preview-card hidden">
+          <p class="field-label">Output preview</p>
+          <div id="players"></div>
+        </div>
+        <div id="outputs" class="output-list"></div>
+      </section>
+
+      <footer><span>Made for curious makers. MIT licensed.</span><a href="/docs">API docs</a></footer>
+    </main>
+    <script src="/static/app.js?v=1" defer></script>
+  </body>
+</html>

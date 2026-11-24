@@ -2,7 +2,7 @@
 
 OpenMediaLab is an open-source, self-hostable web workbench for extracting and transforming media. Upload a local audio/video file or provide a direct media URL, YouTube link, or Vimeo link; select the operations you need; and preview or download the results in your browser.
 
-The project is licensed under MIT. Tools, codecs, and optional AI models retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Use only media you own or are authorized to process. Respect source-site terms and copyright law.
+The MIT license applies to OpenMediaLab's original code and materials created for this repository. Third-party assets, data, dependencies, and model weights retain their own licenses and notices; this repository's MIT license does not relicense them. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for tool and codec details. Use only media you own or are authorized to process. Respect source-site terms and copyright law.
 
 ## Features
 
